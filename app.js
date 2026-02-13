@@ -1,37 +1,32 @@
+require('dotenv').config();
+const mongoose = require('mongoose')
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require('express');
+const tarefaRoute = require('./source/routes/tarefaRoute');
+const usuarioRoute = require('./source/routes/usuarioRoute');
+
 const app = express();
+
 app.use(express.json());
 const port = 3000;
 
-const tipos = [
-    { id: 1, nome: "Estudos", id_pai: null },
-    { id: 2, nome: "Trabalho", id_pai: null },
-    { id: 3, nome: "Faculdade", id_pai: 1 },
-    { id: 4, nome: "Projeto Pessoal", id_pai: 1 },
-    { id: 5, nome: "Idiomas", id_pai: 1 },
-]
+app.use('/tarefas', tarefaRoute);
 
-const tarefas = [
-    { id: 6, nome: "Terminar Configs de Node.js", id_pai: 4 },
-    { id: 7, nome: "Estudos para o Enem", id_pai: 1 }
-];
+app.use('/usuarios', usuarioRoute);
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Conectado ao MongoDB!'))
+  .catch((erro) => console.log('Erro ao conectar:', erro));
+
 
 app.get('/', (req, res) => {
-  res.send("TESTE DE CONEXAO - AGORA VAI!");
+  res.send("Bem-vindo à minha API!");
 }); 
-
-app.get('/tarefas', (req, res) => {
-res.json(tarefas);
-});
 
 app.listen(port, () => {
   console.log(`API rodando em http://localhost:${port}`);
 });
 
-app.post('/tarefas', (req, res) => {
-    const novaTarefa = req.body;
-    tarefas.push(novaTarefa);
 
-    console.log("Lista Atualizada!", tarefas);
-    res.send("Lista atualizada com sucesso!");
-});
+
