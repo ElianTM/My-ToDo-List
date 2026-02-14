@@ -27,8 +27,8 @@ A RESTful API developed with Node.js for personal task management. The system fe
 
 | Method | Route | Description |
 | :--- | :--- | :--- |
-| `POST` | `/auth/register` | Registers a new user. |
-| `POST` | `/auth/login` | Authenticates user and returns a JWT Token. |
+| `POST` | `/cadastro` | Registers a new user. |
+| `POST` | `/login` | Authenticates user and returns a JWT Token. |
 
 ### 📝 Tasks (Protected - Requires JWT Token)
 *Include the token in the request header: `Authorization: Bearer <your_token>`*
